@@ -150,6 +150,7 @@ function initLightbox(): void {
     touchStartX = e.touches[0].clientX;
   }, { passive: true });
   lb.addEventListener('touchend', e => {
+    if ((window.visualViewport?.scale ?? 1) > 1) return;
     const dx = e.changedTouches[0].clientX - touchStartX;
     if (Math.abs(dx) > 40) lightboxStep(dx < 0 ? 1 : -1);
   });
