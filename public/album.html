@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Album</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+<header>
+  <a class="back-btn" href="/">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="10 12 6 8 10 4"/>
+    </svg>
+    All albums
+  </a>
+  <h1 id="header-title"></h1>
+</header>
+
+<main>
+  <div id="album-content">
+    <div class="loading">
+      <div class="spinner"></div>
+      Loading photos…
+    </div>
+  </div>
+</main>
+
+<div id="lightbox">
+  <button id="lb-close" aria-label="Close">✕</button>
+  <button class="lb-btn" id="lb-prev" aria-label="Previous">‹</button>
+  <img id="lb-img" src="" alt="" />
+  <button class="lb-btn" id="lb-next" aria-label="Next">›</button>
+  <div id="lb-caption"></div>
+</div>
+
+<script src="/js/app.js"></script>
+
+</body>
+</html>

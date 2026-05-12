@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "build": "esbuild src/app.ts --bundle --outfile=public/js/app.js --target=es2020 --format=iife",
+    "build:watch": "esbuild src/app.ts --bundle --outfile=public/js/app.js --target=es2020 --format=iife --watch",
+    "typecheck": "tsc --noEmit",
+    "dev": "npm run build && netlify dev"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^2.0.0",
+    "@types/node": "^20.0.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.0.0"
+  }
+}
