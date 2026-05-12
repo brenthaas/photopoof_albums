@@ -292,6 +292,12 @@ main {
 
 /* ── Responsive ──────────────────────────────────────── */
 
+@media (orientation: landscape) {
+  #lb-prev { left: max(1.25rem, env(safe-area-inset-left)); }
+  #lb-next { right: max(1.25rem, env(safe-area-inset-right)); }
+  #lb-close { right: max(1.25rem, env(safe-area-inset-right)); }
+}
+
 @media (max-width: 600px) {
   main { padding: 2rem 1rem; }
   header { padding: 0 1rem; }

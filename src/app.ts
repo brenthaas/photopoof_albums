@@ -163,8 +163,9 @@ function initLightbox(): void {
   lb.addEventListener('touchmove', e => {
     if ((window.visualViewport?.scale ?? 1) > 1 || e.touches.length > 1) return;
     const dx = e.touches[0].clientX - touchStartX;
+    const vw = window.visualViewport?.width ?? window.innerWidth;
     lbImg.style.transform = `translateX(${dx}px)`;
-    lbImg.style.opacity = String(Math.max(0.3, 1 - Math.abs(dx) / (window.innerWidth * 0.75)));
+    lbImg.style.opacity = String(Math.max(0.3, 1 - Math.abs(dx) / (vw * 0.75)));
   }, { passive: true });
 
   lb.addEventListener('touchend', e => {
