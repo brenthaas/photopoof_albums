@@ -145,14 +145,67 @@ function initLightbox(): void {
     if (e.key === 'ArrowRight') lightboxStep(1);
   });
 
+  const lbImg = document.getElementById('lb-img') as HTMLImageElement;
   let touchStartX = 0;
+
   lb.addEventListener('touchstart', e => {
+    if (e.touches.length > 1) {
+      // Pinch starting — reset any in-progress drag
+      lbImg.style.transition = 'transform 0.2s ease, opacity 0.2s ease';
+      lbImg.style.transform = 'translateX(0)';
+      lbImg.style.opacity = '1';
+      return;
+    }
     touchStartX = e.touches[0].clientX;
+    lbImg.style.transition = 'none';
   }, { passive: true });
+
+  lb.addEventListener('touchmove', e => {
+    if ((window.visualViewport?.scale ?? 1) > 1 || e.touches.length > 1) return;
+    const dx = e.touches[0].clientX - touchStartX;
+    lbImg.style.transform = `translateX(${dx}px)`;
+    lbImg.style.opacity = String(Math.max(0.3, 1 - Math.abs(dx) / (window.innerWidth * 0.75)));
+  }, { passive: true });
+
   lb.addEventListener('touchend', e => {
     if ((window.visualViewport?.scale ?? 1) > 1) return;
     const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 40) lightboxStep(dx < 0 ? 1 : -1);
+
+    if (Math.abs(dx) > 60) {
+      const dir = dx < 0 ? 1 : -1;
+      const exitX = `${dir > 0 ? -110 : 110}%`;
+      const enterX = `${dir > 0 ? 110 : -110}%`;
+
+      // Snap current photo out
+      lbImg.style.transition = 'transform 0.22s ease, opacity 0.22s ease';
+      lbImg.style.transform = `translateX(${exitX})`;
+      lbImg.style.opacity = '0';
+
+      setTimeout(() => {
+        // Load next photo off-screen on the incoming side
+        lightboxIndex = (lightboxIndex + dir + lightboxPhotos.length) % lightboxPhotos.length;
+        const photo = lightboxPhotos[lightboxIndex];
+        lbImg.src = photo.full || photo.thumb;
+        lbImg.alt = photo.title;
+        document.getElementById('lb-caption')!.textContent = photo.title;
+
+        lbImg.style.transition = 'none';
+        lbImg.style.transform = `translateX(${enterX})`;
+        lbImg.style.opacity = '0';
+
+        // Slide in
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          lbImg.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+          lbImg.style.transform = 'translateX(0)';
+          lbImg.style.opacity = '1';
+        }));
+      }, 220);
+    } else {
+      // Not far enough — spring back
+      lbImg.style.transition = 'transform 0.25s ease, opacity 0.2s ease';
+      lbImg.style.transform = 'translateX(0)';
+      lbImg.style.opacity = '1';
+    }
   });
 }
 
