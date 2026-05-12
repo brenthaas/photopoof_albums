@@ -103,6 +103,7 @@ async function loadAlbum(albumId: string): Promise<void> {
 
 function openLightbox(index: number): void {
   lightboxIndex = index;
+  resetLbImg();
   renderLightbox();
   document.getElementById('lightbox')!.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -111,6 +112,7 @@ function openLightbox(index: number): void {
 function closeLightbox(): void {
   document.getElementById('lightbox')!.classList.remove('open');
   document.body.style.overflow = '';
+  resetLbImg();
 }
 
 function renderLightbox(): void {
@@ -123,7 +125,15 @@ function renderLightbox(): void {
 
 function lightboxStep(delta: number): void {
   lightboxIndex = (lightboxIndex + delta + lightboxPhotos.length) % lightboxPhotos.length;
+  resetLbImg();
   renderLightbox();
+}
+
+function resetLbImg(): void {
+  const img = document.getElementById('lb-img') as HTMLImageElement;
+  img.style.transform = '';
+  img.style.opacity = '';
+  img.style.transition = '';
 }
 
 function initLightbox(): void {
@@ -174,16 +184,17 @@ function initLightbox(): void {
 
     if (Math.abs(dx) > 60) {
       const dir = dx < 0 ? 1 : -1;
-      const exitX = `${dir > 0 ? -110 : 110}%`;
-      const enterX = `${dir > 0 ? 110 : -110}%`;
+      const vw = window.visualViewport?.width ?? window.innerWidth;
+      const exitPx = `${dir > 0 ? -vw : vw}px`;
+      const enterPx = `${dir > 0 ? vw : -vw}px`;
 
       // Snap current photo out
       lbImg.style.transition = 'transform 0.22s ease, opacity 0.22s ease';
-      lbImg.style.transform = `translateX(${exitX})`;
+      lbImg.style.transform = `translateX(${exitPx})`;
       lbImg.style.opacity = '0';
 
       setTimeout(() => {
-        // Load next photo off-screen on the incoming side
+        // Load next photo positioned off-screen on the incoming side
         lightboxIndex = (lightboxIndex + dir + lightboxPhotos.length) % lightboxPhotos.length;
         const photo = lightboxPhotos[lightboxIndex];
         lbImg.src = photo.full || photo.thumb;
@@ -191,15 +202,16 @@ function initLightbox(): void {
         document.getElementById('lb-caption')!.textContent = photo.title;
 
         lbImg.style.transition = 'none';
-        lbImg.style.transform = `translateX(${enterX})`;
+        lbImg.style.transform = `translateX(${enterPx})`;
         lbImg.style.opacity = '0';
 
-        // Slide in
-        requestAnimationFrame(() => requestAnimationFrame(() => {
-          lbImg.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
-          lbImg.style.transform = 'translateX(0)';
-          lbImg.style.opacity = '1';
-        }));
+        // Force a style flush so the browser paints the off-screen position
+        // before we add the transition, otherwise it won't animate
+        void lbImg.offsetWidth;
+
+        lbImg.style.transition = 'transform 0.25s ease, opacity 0.25s ease';
+        lbImg.style.transform = 'translateX(0)';
+        lbImg.style.opacity = '1';
       }, 220);
     } else {
       // Not far enough — spring back
