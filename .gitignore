@@ -2,3 +2,4 @@
 node_modules/
 .netlify/
 public/js/app.js
+.DS_Store
