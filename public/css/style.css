@@ -91,11 +91,15 @@ footer {
 }
 
 .contact-link {
+  background: none;
+  border: none;
+  cursor: pointer;
   color: var(--text-muted);
-  text-decoration: none;
+  font-family: var(--font);
   font-size: 0.75rem;
   font-weight: 400;
   transition: color 0.15s;
+  padding: 0;
 }
 
 .contact-link:hover {
@@ -294,6 +298,112 @@ main {
   text-overflow: ellipsis;
   max-width: 80vw;
   text-align: center;
+}
+
+/* ── Contact modal ───────────────────────────────────── */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-overlay.open { display: flex; }
+
+.modal {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  box-shadow: var(--shadow-md);
+}
+
+.modal h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem;
+  transition: color 0.15s;
+}
+
+.modal-close:hover { color: var(--text); }
+
+.honeypot { display: none; }
+
+#contact-form label {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  margin-bottom: 0.35rem;
+  margin-top: 1rem;
+}
+
+#contact-form label:first-of-type { margin-top: 0; }
+
+#contact-form input,
+#contact-form textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.9375rem;
+  padding: 0.5rem 0.75rem;
+  outline: none;
+  transition: border-color 0.15s;
+  resize: vertical;
+}
+
+#contact-form input:focus,
+#contact-form textarea:focus {
+  border-color: #555;
+}
+
+.submit-btn {
+  margin-top: 1.5rem;
+  width: 100%;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 0.625rem 1rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.submit-btn:hover { opacity: 0.88; }
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.contact-success {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9375rem;
+  padding: 1rem 0;
 }
 
 /* ── States ──────────────────────────────────────────── */

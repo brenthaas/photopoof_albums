@@ -22,10 +22,30 @@
 </main>
 
 <footer>
-  <a class="contact-link" href="mailto:photopoof@lowkey.io">Say Hi! Contact me</a>
+  <button class="contact-link" id="contact-open">Say Hi! Contact me</button>
 </footer>
 
+<div class="modal-overlay" id="contact-modal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
+    <button class="modal-close" id="contact-close" aria-label="Close">✕</button>
+    <h2 id="modal-heading">Say Hi!</h2>
+    <form id="contact-form" name="contact" data-netlify="true" netlify-honeypot="bot-field">
+      <input type="hidden" name="form-name" value="contact" />
+      <p class="honeypot"><label>Skip this: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+      <label for="cf-name">Name</label>
+      <input type="text" id="cf-name" name="name" required autocomplete="name" />
+      <label for="cf-email">Email</label>
+      <input type="email" id="cf-email" name="email" required autocomplete="email" />
+      <label for="cf-message">Message</label>
+      <textarea id="cf-message" name="message" rows="4" required></textarea>
+      <button type="submit" class="submit-btn">Send</button>
+    </form>
+    <p class="contact-success" id="contact-success" hidden>Thanks! I'll be in touch.</p>
+  </div>
+</div>
+
 <script src="/js/app.js"></script>
+<script src="/js/contact.js"></script>
 
 </body>
 </html>
