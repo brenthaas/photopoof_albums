@@ -23,6 +23,7 @@ body {
   line-height: 1.5;
 }
 
+
 /* ── Header ─────────────────────────────────────────── */
 
 header {
@@ -75,12 +76,38 @@ header h1 {
 
 .back-btn svg { flex-shrink: 0; }
 
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  z-index: 10;
+}
+
+.contact-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 400;
+  transition: color 0.15s;
+}
+
+.contact-link:hover {
+  color: var(--text);
+}
+
 /* ── Main content ────────────────────────────────────── */
 
 main {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 3rem 2rem 6rem;
 }
 
 .page-title {
@@ -301,7 +328,7 @@ main {
 }
 
 @media (max-width: 600px) {
-  main { padding: 2rem 1rem; }
+  main { padding: 2rem 1rem 6rem; }
   header { padding: 0 1rem; }
   .album-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1rem; }
   .photo-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.5rem; }
